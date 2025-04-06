@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HulaHands - Learn Filipino Sign Language</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      overflow: hidden;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    /* Welcome Screen */
+    .welcome-screen {
+      animation: fadeIn 1s;
+    }
+    
+    .logo {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #FFD700;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+    
+    .btn {
+      background: #FFD700;
+      color: #1a2a6c;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+    }
+    
+    /* Level Selection */
+    .level-selection {
+      animation: slideUp 0.5s;
+    }
+    
+    .screen-title {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #FFD700;
+    }
+    
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .level-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 15px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .level-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .level-btn.completed {
+      background: rgba(76, 175, 80, 0.3);
+      border-color: #4CAF50;
+    }
+    
+    .level-btn.locked {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      cursor: not-allowed;
+    }
+    
+    .back-btn {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      margin-top: 20px;
+    }
+    
+    /* Letter Selection */
+    .letter-selection {
+      animation: slideUp 0.5s;
+    }
+    
+    .letters-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .letter-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 15px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .letter-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .letter-btn.completed {
+      background: rgba(76, 175, 80, 0.3);
+      border-color: #4CAF50;
+    }
+    
+    /* Video Screen */
+    .video-screen {
+      animation: fadeIn 0.5s;
+    }
+    
+    .video-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .video-container video {
+      width: 100%;
+      display: block;
+    }
+    
+    .letter-title {
+      font-size: 5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #FFD700;
+    }
+    
+    .letter-name {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+    
+    /* Assessment Screen */
+    .assessment-screen {
+      animation: fadeIn 0.5s;
+    }
+    
+    .question-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .question-text {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+    
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .option-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .option-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .option-btn.correct {
+      background: rgba(76, 175, 80, 0.5);
+      border-color: #4CAF50;
+      animation: pulse 0.5s;
+    }
+    
+    .option-btn.incorrect {
+      background: rgba(244, 67, 54, 0.5);
+      border-color: #F44336;
+    }
+    
+    .feedback {
+      font-size: 1.5rem;
+      margin: 20px 0;
+      min-height: 2rem;
+    }
+    
+    .feedback.correct {
+      color: #4CAF50;
+    }
+    
+    .feedback.incorrect {
+      color: #F44336;
+    }
+    
+    .progress-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background: #FFD700;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    /* Results Screen */
+    .results-screen {
+      animation: fadeIn 0.5s;
+    }
+    
+    .result-icon {
+      font-size: 5rem;
+      margin-bottom: 20px;
+    }
+    
+    .result-icon.pass {
+      color: #4CAF50;
+    }
+    
+    .result-icon.fail {
+      color: #F44336;
+    }
+    
+    .result-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .score-text {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+    
+    .pass-score {
+      color: #FFD700;
+      font-weight: 700;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .levels-grid, .letters-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .logo {
+        font-size: 2.5rem;
+      }
+      
+      .screen-title {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .levels-grid, .letters-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div class="container welcome-screen" id="welcome-screen">
+    <div class="logo">HulaHands</div>
+    <button class="btn" id="start-btn">START</button>
+  </div>
+  
+  <!-- Level Selection Screen -->
+  <div class="container level-selection hidden" id="level-selection">
+    <h1 class="screen-title">Select Level</h1>
+    <div class="levels-grid" id="levels-grid">
+      <!-- Levels will be generated by JavaScript -->
+    </div>
+    <button class="btn back-btn" id="level-back-btn">BACK</button>
+  </div>
+  
+  <!-- Letter Selection Screen -->
+  <div class="container letter-selection hidden" id="letter-selection">
+    <h1 class="screen-title">Select Letter to Learn</h1>
+    <div class="letters-grid" id="letters-grid">
+      <!-- Letters will be generated by JavaScript -->
+    </div>
+    <button class="btn back-btn" id="letter-back-btn">BACK</button>
+  </div>
+  
+  <!-- Video Learning Screen -->
+  <div class="container video-screen hidden" id="video-screen">
+    <h1 class="letter-title" id="current-letter">A</h1>
+    <div class="letter-name" id="letter-name">Letter A</div>
+    
+    <div class="video-container">
+      <video id="sign-video" controls>
+        <!-- Video source will be set by JavaScript -->
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <button class="btn" id="start-assessment-btn">START ASSESSMENT</button>
+    <button class="btn back-btn" id="video-back-btn">BACK</button>
+  </div>
+  
+  <!-- Assessment Screen -->
+  <div class="container assessment-screen hidden" id="assessment-screen">
+    <h1 class="screen-title">Assessment</h1>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    
+    <div class="question-container">
+      <div class="question-text" id="question-text">What is the sign for letter A?</div>
+      
+      <div class="options-grid" id="options-grid">
+        <!-- Options will be generated by JavaScript -->
+      </div>
+    </div>
+    
+    <div class="feedback" id="feedback"></div>
+    
+    <button class="btn hidden" id="next-question-btn">NEXT QUESTION</button>
+    <button class="btn back-btn hidden" id="assessment-back-btn">BACK</button>
+  </div>
+  
+  <!-- Results Screen -->
+  <div class="container results-screen hidden" id="results-screen">
+    <div class="result-icon pass hidden" id="pass-icon">✓</div>
+    <div class="result-icon fail hidden" id="fail-icon">✗</div>
+    
+    <h1 class="result-title" id="result-title">Congratulations!</h1>
+    <div class="score-text">You scored <span class="pass-score" id="user-score">8</span> out of <span id="total-questions">10</span></div>
+    
+    <button class="btn" id="retry-btn">TRY AGAIN</button>
+    <button class="btn" id="next-letter-btn">NEXT LETTER</button>
+    <button class="btn back-btn" id="results-back-btn">BACK</button>
+  </div>
+
+  <script>
+    // Game Data
+    const levels = [
+      {
+        id: 1,
+        title: "Basic Letters",
+        letters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+        videoSources: {
+          'A': 'letter_a.mp4',
+          'B': 'letter_b.mp4',
+          'C': 'letter_c.mp4',
+          'D': 'letter_d.mp4',
+          'E': 'letter_e.mp4',
+          'F': 'letter_f.mp4',
+          'G': 'letter_g.mp4',
+          'H': 'letter_h.mp4',
+          'I': 'letter_i.mp4',
+          'J': 'letter_j.mp4'
+        },
+        assessments: {
+          'A': [
+            {
+              question: "What is the sign for letter A?",
+              options: ["Option1.gif", "Option2.gif", "Option3.gif", "Option4.gif"],
+              correctAnswer: 0,
+              video: "correct_a.mp4"
+            },
+            // More questions for letter A...
+          ],
+          // Assessments for other letters...
+        },
+        passingScore: 7 // 70% to pass
+      },
+      // More levels...
+    ];
+    
+    // Game State
+    let currentLevel = null;
+    let currentLetter = null;
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let completedLetters = JSON.parse(localStorage.getItem('completedLetters')) || {};
+    let completedLevels = JSON.parse(localStorage.getItem('completedLevels')) || [];
+    
+    // DOM Elements
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const levelSelection = document.getElementById('level-selection');
+    const letterSelection = document.getElementById('letter-selection');
+    const videoScreen = document.getElementById('video-screen');
+    const assessmentScreen = document.getElementById('assessment-screen');
+    const resultsScreen = document.getElementById('results-screen');
+    
+    const levelsGrid = document.getElementById('levels-grid');
+    const lettersGrid = document.getElementById('letters-grid');
+    
+    const currentLetterDisplay = document.getElementById('current-letter');
+    const letterNameDisplay = document.getElementById('letter-name');
+    const signVideo = document.getElementById('sign-video');
+    
+    const questionText = document.getElementById('question-text');
+    const optionsGrid = document.getElementById('options-grid');
+    const feedbackDisplay = document.getElementById('feedback');
+    const progressBar = document.getElementById('progress-bar');
+    const nextQuestionBtn = document.getElementById('next-question-btn');
+    
+    const passIcon = document.getElementById('pass-icon');
+    const failIcon = document.getElementById('fail-icon');
+    const resultTitle = document.getElementById('result-title');
+    const userScoreDisplay = document.getElementById('user-score');
+    const totalQuestionsDisplay = document.getElementById('total-questions');
+    
+    // Buttons
+    const startBtn = document.getElementById('start-btn');
+    const levelBackBtn = document.getElementById('level-back-btn');
+    const letterBackBtn = document.getElementById('letter-back-btn');
+    const videoBackBtn = document.getElementById('video-back-btn');
+    const startAssessmentBtn = document.getElementById('start-assessment-btn');
+    const assessmentBackBtn = document.getElementById('assessment-back-btn');
+    const retryBtn = document.getElementById('retry-btn');
+    const nextLetterBtn = document.getElementById('next-letter-btn');
+    const resultsBackBtn = document.getElementById('results-back-btn');
+    
+    // Event Listeners
+    startBtn.addEventListener('click', showLevelSelection);
+    levelBackBtn.addEventListener('click', showWelcomeScreen);
+    letterBackBtn.addEventListener('click', showLevelSelection);
+    videoBackBtn.addEventListener('click', showLetterSelection);
+    startAssessmentBtn.addEventListener('click', startAssessment);
+    assessmentBackBtn.addEventListener('click', showLetterSelection);
+    retryBtn.addEventListener('click', retryAssessment);
+    nextLetterBtn.addEventListener('click', nextLetter);
+    resultsBackBtn.addEventListener('click', showLetterSelection);
+    nextQuestionBtn.addEventListener('click', nextQuestion);
+    
+    // Initialize the game
+    function initGame() {
+      generateLevelButtons();
+    }
+    
+    // Generate level selection buttons
+    function generateLevelButtons() {
+      levelsGrid.innerHTML = '';
+      
+      levels.forEach((level, index) => {
+        const levelBtn = document.createElement('div');
+        levelBtn.className = 'level-btn';
+        levelBtn.textContent = level.id;
+        
+        if (completedLevels.includes(level.id)) {
+          levelBtn.classList.add('completed');
+        } else if (index > 0 && !completedLevels.includes(levels[index-1].id)) {
+          levelBtn.classList.add('locked');
+        }
+        
+        levelBtn.addEventListener('click', () => {
+          if (!levelBtn.classList.contains('locked')) {
+            selectLevel(level.id);
+          }
+        });
+        
+        levelsGrid.appendChild(levelBtn);
+      });
+    }
+    
+    // Generate letter selection buttons
+    function generateLetterButtons() {
+      lettersGrid.innerHTML = '';
+      
+      currentLevel.letters.forEach(letter => {
+        const letterBtn = document.createElement('div');
+        letterBtn.className = 'letter-btn';
+        letterBtn.textContent = letter;
+        
+        if (completedLetters[`level${currentLevel.id}_${letter}`]) {
+          letterBtn.classList.add('completed');
+        }
+        
+        letterBtn.addEventListener('click', () => {
+          selectLetter(letter);
+        });
+        
+        lettersGrid.appendChild(letterBtn);
+      });
+    }
+    
+    // Screen navigation functions
+    function showWelcomeScreen() {
+      hideAllScreens();
+      welcomeScreen.classList.remove('hidden');
+    }
+    
+    function showLevelSelection() {
+      hideAllScreens();
+      levelSelection.classList.remove('hidden');
+    }
+    
+    function showLetterSelection() {
+      hideAllScreens();
+      letterSelection.classList.remove('hidden');
+      generateLetterButtons();
+    }
+    
+    function showVideoScreen() {
+      hideAllScreens();
+      videoScreen.classList.remove('hidden');
+      
+      currentLetterDisplay.textContent = currentLetter;
+      letterNameDisplay.textContent = `Letter ${currentLetter}`;
+      signVideo.src = currentLevel.videoSources[currentLetter];
+      signVideo.load();
+    }
+    
+    function showAssessmentScreen() {
+      hideAllScreens();
+      assessmentScreen.classList.remove('hidden');
+      loadQuestion();
+    }
+    
+    function showResultsScreen() {
+      hideAllScreens();
+      resultsScreen.classList.remove('hidden');
+      
+      const totalQuestions = currentLevel.assessments[currentLetter].length;
+      const passingScore = Math.ceil(totalQuestions * (currentLevel.passingScore / 10));
+      
+      userScoreDisplay.textContent = score;
+      totalQuestionsDisplay.textContent = totalQuestions;
+      
+      if (score >= passingScore) {
+        // Passed
+        passIcon.classList.remove('hidden');
+        failIcon.classList.add('hidden');
+        resultTitle.textContent = "Congratulations!";
+        nextLetterBtn.classList.remove('hidden');
+        
+        // Mark letter as completed
+        if (!completedLetters[`level${currentLevel.id}_${currentLetter}`]) {
+          completedLetters[`level${currentLevel.id}_${currentLetter}`] = true;
+          localStorage.setItem('completedLetters', JSON.stringify(completedLetters));
+          
+          // Check if all letters in level are completed
+          const allLettersCompleted = currentLevel.letters.every(letter => 
+            completedLetters[`level${currentLevel.id}_${letter}`]
+          );
+          
+          if (allLettersCompleted && !completedLevels.includes(currentLevel.id)) {
+            completedLevels.push(currentLevel.id);
+            localStorage.setItem('completedLevels', JSON.stringify(completedLevels));
+          }
+        }
+      } else {
+        // Failed
+        passIcon.classList.add('hidden');
+        failIcon.classList.remove('hidden');
+        resultTitle.textContent = "Try Again!";
+        nextLetterBtn.classList.add('hidden');
+      }
+    }
+    
+    function hideAllScreens() {
+      document.querySelectorAll('.container').forEach(screen => {
+        screen.classList.add('hidden');
+      });
+    }
+    
+    // Game logic functions
+    function selectLevel(levelId) {
+      currentLevel = levels.find(level => level.id === levelId);
+      showLetterSelection();
+    }
+    
+    function selectLetter(letter) {
+      currentLetter = letter;
+      showVideoScreen();
+    }
+    
+    function startAssessment() {
+      currentQuestionIndex = 0;
+      score = 0;
+      showAssessmentScreen();
+    }
+    
+    function loadQuestion() {
+      const questions = currentLevel.assessments[currentLetter];
+      const currentQuestion = questions[currentQuestionIndex];
+      
+      // Update progress bar
+      const progress = ((currentQuestionIndex) / questions.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      
+      questionText.textContent = currentQuestion.question;
+      optionsGrid.innerHTML = '';
+      
+      currentQuestion.options.forEach((option, index) => {
+        const optionBtn = document.createElement('div');
+        optionBtn.className = 'option-btn';
+        optionBtn.innerHTML = `<img src="${option}" alt="Option ${index+1}" style="width:100%; border-radius:8px;">`;
+        
+        optionBtn.addEventListener('click', () => checkAnswer(index));
+        
+        optionsGrid.appendChild(optionBtn);
+      });
+      
+      feedbackDisplay.textContent = '';
+      feedbackDisplay.className = 'feedback';
+      nextQuestionBtn.classList.add('hidden');
+    }
+    
+    function checkAnswer(selectedIndex) {
+      const questions = currentLevel.assessments[currentLetter];
+      const currentQuestion = questions[currentQuestionIndex];
+      
+      const optionButtons = document.querySelectorAll('.option-btn');
+      optionButtons.forEach((btn, index) => {
+        if (index === currentQuestion.correctAnswer) {
+          btn.classList.add('correct');
+        } else if (index === selectedIndex && index !== currentQuestion.correctAnswer) {
+          btn.classList.add('incorrect');
+        }
+        btn.style.pointerEvents = 'none';
+      });
+      
+      if (selectedIndex === currentQuestion.correctAnswer) {
+        score++;
+        feedbackDisplay.textContent = "Great!";
+        feedbackDisplay.classList.add('correct');
+        
+        // Vibrate if supported
+        if (navigator.vibrate) navigator.vibrate(200);
+      } else {
+        feedbackDisplay.textContent = "Nice Try!";
+        feedbackDisplay.classList.add('incorrect');
+        
+        // Vibrate if supported (different pattern for wrong answer)
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+      }
+      
+      nextQuestionBtn.classList.remove('hidden');
+    }
+    
+    function nextQuestion() {
+      const questions = currentLevel.assessments[currentLetter];
+      currentQuestionIndex++;
+      
+      if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+      } else {
+        showResultsScreen();
+      }
+    }
+    
+    function retryAssessment() {
+      startAssessment();
+    }
+    
+    function nextLetter() {
+      const currentLetterIndex = currentLevel.letters.indexOf(currentLetter);
+      if (currentLetterIndex < currentLevel.letters.length - 1) {
+        selectLetter(currentLevel.letters[currentLetterIndex + 1]);
+      } else {
+        showLetterSelection();
+      }
+    }
+    
+    // Initialize the game when loaded
+    window.addEventListener('DOMContentLoaded', initGame);
+  </script>
+</body>
+</html>
